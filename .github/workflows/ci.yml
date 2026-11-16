@@ -1,0 +1,38 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  c:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test C projects
+        run: bash ./01-c-algorithms-and-systems/run_tests.sh
+
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compile Java projects
+        run: |
+          for p in clinic-reservation-system tetris; do
+            javac -d "build/$p" $(find "02-java-oop-projects/$p/src" -name '*.java' ! -name module-info.java)
+          done
+
+  powershell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke-test File Toolkit
+        shell: pwsh
+        run: |
+          . ./03-powershell-file-toolkit/FileToolkit.ps1
+          New-Item -ItemType Directory demo/sub -Force | Out-Null
+          'hello' | Set-Content demo/a.txt; 'hello' | Set-Content demo/sub/b.txt
+          Get-FolderReport -Path ./demo -Recurse
+          Find-DuplicateFile -Path ./demo -Recurse
