@@ -1,0 +1,35 @@
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Secrets - never commit
+.env
+*.pem
+*.key
+
+# C build outputs
+build/
+*.o
+*.out
+*.exe
+*.dSYM/
+
+# Java
+out/
+bin/
+*.class
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Files generated when the programs run
+*_weights_*.txt
+*.png
+report.txt
+runway*.txt
+flights.txt
+skipitty_save.bin
